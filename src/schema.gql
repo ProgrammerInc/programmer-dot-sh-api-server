@@ -1,0 +1,128 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Article {
+  author: String
+  content: String
+  createdAt: DateTime!
+  description: String
+  guid: String
+  id: String!
+  image: String
+  lang: String
+  logo: String
+  published: Boolean!
+  publishedAt: DateTime
+  publisher: String
+  title: String!
+  updatedAt: DateTime!
+  url: String!
+}
+
+input CreateArticleInput {
+  author: String
+  content: String
+  description: String
+  feedId: Int
+  guid: String
+  image: String
+  language: String
+  link: String!
+  logo: String
+  published: Boolean = true
+  publishedAt: DateTime
+  publisher: String
+  title: String!
+}
+
+input CreateFeedInput {
+  alias: String
+  author: String
+  description: String
+  feedType: FeedType = NONE
+  feedUrl: String
+  image: String
+  language: String
+  link: String
+  logo: String
+  published: Boolean = true
+  publisher: String
+  title: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Feed {
+  alias: String
+  author: String
+  createdAt: DateTime!
+  description: String
+  feedType: String
+  feedUrl: String
+  id: String!
+  image: String
+  lang: String
+  logo: String
+  published: Boolean!
+  publisher: String
+  title: String
+  updatedAt: DateTime!
+  url: String!
+}
+
+enum FeedType {
+  ATOM
+  NONE
+  RSS
+}
+
+type Mutation {
+  createArticle(createArticleInput: CreateArticleInput!): Article!
+  createFeed(createFeedInput: CreateFeedInput!): Feed!
+  removeArticle(id: String!): Article!
+  removeFeed(id: String!): Feed!
+  updateArticle(updateArticleInput: UpdateArticleInput!): Article!
+  updateFeed(updateFeedInput: UpdateFeedInput!): Feed!
+}
+
+type Query {
+  article(id: String!): Article!
+  feed(id: String!): Feed!
+}
+
+input UpdateArticleInput {
+  author: String
+  content: String
+  description: String
+  feedId: Int
+  guid: String
+  id: String
+  image: String
+  language: String
+  link: String
+  logo: String
+  published: Boolean = true
+  publishedAt: DateTime
+  publisher: String
+  title: String
+}
+
+input UpdateFeedInput {
+  alias: String
+  author: String
+  description: String
+  feedType: FeedType = NONE
+  feedUrl: String
+  id: String
+  image: String
+  lang: String
+  logo: String
+  published: Boolean = true
+  publisher: String
+  title: String
+  url: String
+}
