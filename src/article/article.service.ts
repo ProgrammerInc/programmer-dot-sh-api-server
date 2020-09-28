@@ -11,8 +11,8 @@ export class ArticleService {
     private articleModel: Model<Article>,
   ) {}
 
-  async create(createArticleInput: CreateArticleInput): Promise<Article> {
-    const createdArticle = new this.articleModel(createArticleInput);
+  async create(article: CreateArticleInput): Promise<Article> {
+    const createdArticle = new this.articleModel(article);
 
     return createdArticle.save();
   }
@@ -27,8 +27,8 @@ export class ArticleService {
     return article;
   }
 
-  async update(id: string, updateArticleInput: UpdateArticleInput) {
-    const updatedArticle = await this.articleModel.findByIdAndUpdate(id, updateArticleInput, { new: true });
+  async update(id: string, article: UpdateArticleInput) {
+    const updatedArticle = await this.articleModel.findByIdAndUpdate(id, article, { new: true });
 
     return updatedArticle;
   }

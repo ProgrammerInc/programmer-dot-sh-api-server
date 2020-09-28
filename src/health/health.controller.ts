@@ -4,21 +4,19 @@ import { HealthCheck, HealthCheckService, MicroserviceHealthIndicator } from '@n
 
 @Controller('health')
 export class HealthController {
-  constructor(
-    private health: HealthCheckService,
-    private microService: MicroserviceHealthIndicator,
-  ) {}
+  constructor(private health: HealthCheckService, private microService: MicroserviceHealthIndicator) {}
 
   @Get()
   @HealthCheck()
   check() {
     return this.health.check([
-      () => this.microService.pingCheck('redis', {
-        transport: Transport.REDIS,
-        options: {
-          url: process.env.REDIS_URL || 'redis://localhost:6379',
-        }
-      })
+      () =>
+        this.microService.pingCheck('redis', {
+          transport: Transport.REDIS,
+          options: {
+            url: process.env.REDIS_URL || 'redis://localhost:6379',
+          },
+        }),
     ]);
   }
 }

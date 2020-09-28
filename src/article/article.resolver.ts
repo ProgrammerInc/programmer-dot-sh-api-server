@@ -9,27 +9,27 @@ export class ArticleResolver {
   constructor(private readonly articleService: ArticleService) {}
 
   @Mutation(() => Article)
-  createArticle(@Args('createArticleInput') createArticleInput: CreateArticleInput) {
-    return this.articleService.create(createArticleInput);
+  createArticle(@Args('article') article: CreateArticleInput): Promise<Article> {
+    return this.articleService.create(article);
   }
 
-  @Query(() => [Article], { name: 'article' })
-  findAll() {
+  @Query(() => [Article], { name: 'articles' })
+  findAll(): Promise<Article[]> {
     return this.articleService.findAll();
   }
 
   @Query(() => Article, { name: 'article' })
-  findOne(@Args('id') id: string) {
+  findOne(@Args('id') id: string): Promise<Article> {
     return this.articleService.findOne(id);
   }
 
   @Mutation(() => Article)
-  updateArticle(@Args('updateArticleInput') updateArticleInput: UpdateArticleInput) {
-    return this.articleService.update(updateArticleInput.id, updateArticleInput);
+  updateArticle(@Args('article') article: UpdateArticleInput): Promise<Article> {
+    return this.articleService.update(article.id, article);
   }
 
   @Mutation(() => Article)
-  removeArticle(@Args('id') id: string) {
+  removeArticle(@Args('id') id: string): Promise<any> {
     return this.articleService.remove(id);
   }
 }

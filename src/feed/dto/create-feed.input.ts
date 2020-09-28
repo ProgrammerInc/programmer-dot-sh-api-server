@@ -23,11 +23,11 @@ export class CreateFeedInput {
   logo?: string;
 
   @Field({ nullable: true })
-  language?: string;
+  lang?: string;
 
   @Field({ nullable: true })
   @IsNotEmpty()
-  link: string;
+  url: string;
 
   @Field({ nullable: true })
   feedUrl?: string;

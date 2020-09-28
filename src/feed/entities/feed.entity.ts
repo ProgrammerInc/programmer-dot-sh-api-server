@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Document } from 'mongoose';
+import { Article } from '../../article/entities/article.entity';
 
 @ObjectType()
 export class Feed extends Document {
@@ -41,6 +42,9 @@ export class Feed extends Document {
 
   @Field()
   published: boolean;
+
+  @Field((_type) => [Article])
+  articles: Article[];
 
   @Field()
   createdAt: Date;

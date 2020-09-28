@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
 @InputType()
@@ -23,11 +23,11 @@ export class CreateArticleInput {
   logo?: string;
 
   @Field({ nullable: true })
-  language?: string;
+  lang?: string;
 
   @Field()
   @IsNotEmpty()
-  link: string;
+  url: string;
 
   @Field({ nullable: true })
   guid?: string;
@@ -41,6 +41,6 @@ export class CreateArticleInput {
   @Field({ nullable: true })
   publishedAt?: Date;
 
-  @Field((_type) => Int)
-  feedId?: number;
+  @Field()
+  feed?: string;
 }

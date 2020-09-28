@@ -1,4 +1,5 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Article } from '../article/entities/article.entity';
 import { CreateFeedInput } from './dto/create-feed.input';
 import { UpdateFeedInput } from './dto/update-feed.input';
 import { Feed } from './entities/feed.entity';
@@ -9,27 +10,34 @@ export class FeedResolver {
   constructor(private readonly feedService: FeedService) {}
 
   @Mutation(() => Feed)
-  createFeed(@Args('createFeedInput') createFeedInput: CreateFeedInput) {
-    return this.feedService.create(createFeedInput);
+  createFeed(@Args('feed') feed: CreateFeedInput): Promise<Feed> {
+    return this.feedService.create(feed);
   }
 
-  @Query(() => [Feed], { name: 'feed' })
-  findAll() {
+  @Query(() => [Feed], { name: 'feeds' })
+  findAll(): Promise<Feed[]> {
     return this.feedService.findAll();
   }
 
   @Query(() => Feed, { name: 'feed' })
-  findOne(@Args('id') id: string) {
+  findOne(@Args('id') id: string): Promise<Feed> {
     return this.feedService.findOne(id);
   }
 
   @Mutation(() => Feed)
-  updateFeed(@Args('updateFeedInput') updateFeedInput: UpdateFeedInput) {
-    return this.feedService.update(updateFeedInput.id, updateFeedInput);
+  updateFeed(@Args('feed') feed: UpdateFeedInput): Promise<Feed> {
+    return this.feedService.update(feed.id, feed);
   }
 
   @Mutation(() => Feed)
-  removeFeed(@Args('id') id: string) {
+  removeFeed(@Args('id') id: string): Promise<any> {
     return this.feedService.remove(id);
+  }
+
+  @ResolveField(() => [Article])
+  async articles(@Parent() feed: Feed): Promise<Article[]> {
+    const { id } = feed;
+
+    return this.feedService.articles(id);
   }
 }

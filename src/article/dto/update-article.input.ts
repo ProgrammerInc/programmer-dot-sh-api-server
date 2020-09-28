@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateArticleInput } from './create-article.input';
 
@@ -26,10 +26,10 @@ export class UpdateArticleInput extends PartialType(CreateArticleInput) {
   logo?: string;
 
   @Field({ nullable: true })
-  language?: string;
+  lang?: string;
 
   @Field()
-  link?: string;
+  url?: string;
 
   @Field({ nullable: true })
   guid?: string;
@@ -42,7 +42,4 @@ export class UpdateArticleInput extends PartialType(CreateArticleInput) {
 
   @Field({ nullable: true })
   publishedAt?: Date;
-
-  @Field((_type) => Int)
-  feedId?: number;
 }

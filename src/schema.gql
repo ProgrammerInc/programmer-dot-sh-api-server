@@ -24,16 +24,16 @@ input CreateArticleInput {
   author: String
   content: String
   description: String
-  feedId: Int
+  feed: String
   guid: String
   image: String
-  language: String
-  link: String!
+  lang: String
   logo: String
   published: Boolean = true
   publishedAt: DateTime
   publisher: String
   title: String!
+  url: String!
 }
 
 input CreateFeedInput {
@@ -43,12 +43,12 @@ input CreateFeedInput {
   feedType: FeedType = NONE
   feedUrl: String
   image: String
-  language: String
-  link: String
+  lang: String
   logo: String
   published: Boolean = true
   publisher: String
   title: String
+  url: String
 }
 
 """
@@ -58,6 +58,7 @@ scalar DateTime
 
 type Feed {
   alias: String
+  articles: [Article!]!
   author: String
   createdAt: DateTime!
   description: String
@@ -81,34 +82,35 @@ enum FeedType {
 }
 
 type Mutation {
-  createArticle(createArticleInput: CreateArticleInput!): Article!
-  createFeed(createFeedInput: CreateFeedInput!): Feed!
+  createArticle(article: CreateArticleInput!): Article!
+  createFeed(feed: CreateFeedInput!): Feed!
   removeArticle(id: String!): Article!
   removeFeed(id: String!): Feed!
-  updateArticle(updateArticleInput: UpdateArticleInput!): Article!
-  updateFeed(updateFeedInput: UpdateFeedInput!): Feed!
+  updateArticle(article: UpdateArticleInput!): Article!
+  updateFeed(feed: UpdateFeedInput!): Feed!
 }
 
 type Query {
   article(id: String!): Article!
+  articles: [Article!]!
   feed(id: String!): Feed!
+  feeds: [Feed!]!
 }
 
 input UpdateArticleInput {
   author: String
   content: String
   description: String
-  feedId: Int
   guid: String
   id: String
   image: String
-  language: String
-  link: String
+  lang: String
   logo: String
   published: Boolean = true
   publishedAt: DateTime
   publisher: String
   title: String
+  url: String
 }
 
 input UpdateFeedInput {

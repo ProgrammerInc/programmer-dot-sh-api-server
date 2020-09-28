@@ -1,6 +1,6 @@
 {
-  "name": "@programmer/dot-sh-api",
-  "description": "Programmer Dot SH API Server",
+  "name": "@programmerinc/dot-sh-api",
+  "description": "Programmer.SH Node.JS API Server",
   "private": true,
   "version": "0.1.0",
   "author": {
