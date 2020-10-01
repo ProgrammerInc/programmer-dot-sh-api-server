@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
-import { Feed } from '../feed/entities/feed.entity';
+import { Feed } from '../feed/models/feed.model';
 import { WorkerService } from './worker.service';
 
 @Controller('worker')

@@ -14,9 +14,9 @@ import metaUrl from 'metascraper-url';
 import fetch from 'node-fetch';
 import Parser from 'rss-parser';
 import { ArticleService } from '../article/article.service';
-import { Feed } from '../feed/entities/feed.entity';
 import { FeedType } from '../feed/enums/feed-type.enum';
 import { FeedService } from '../feed/feed.service';
+import { Feed } from '../feed/models/feed.model';
 
 @Injectable()
 export class WorkerService {
@@ -98,7 +98,7 @@ export class WorkerService {
           guid: item.id,
           published: true,
           publishedAt: new Date(item.pubDate) || new Date(metadata.date),
-          feed: id,
+          feedId: id,
         });
       });
     }
@@ -137,7 +137,7 @@ export class WorkerService {
           guid: item.id,
           published: true,
           publishedAt: new Date(item.pubDate) || new Date(metadata.date),
-          feed: id,
+          feedId: id,
         });
       });
     });

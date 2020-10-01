@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ArticleService } from './article.service';
 import { CreateArticleInput } from './dto/create-article.input';
 import { UpdateArticleInput } from './dto/update-article.input';
-import { Article } from './entities/article.entity';
+import { Article } from './models/article.model';
 
 @Resolver(() => Article)
 export class ArticleResolver {

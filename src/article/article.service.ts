@@ -1,14 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Injectable } from '@nestjs/common';
+import { ReturnModelType } from '@typegoose/typegoose';
+import { InjectModel } from 'nestjs-typegoose';
 import { CreateArticleInput } from './dto/create-article.input';
 import { UpdateArticleInput } from './dto/update-article.input';
-import { Article } from './entities/article.entity';
+import { Article } from './models/article.model';
 
 @Injectable()
 export class ArticleService {
   constructor(
-    @Inject('ARTICLE_MODEL')
-    private articleModel: Model<Article>,
+    @InjectModel(Article) private readonly articleModel: ReturnModelType<typeof Article>,
   ) {}
 
   async create(article: CreateArticleInput): Promise<Article> {

@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { TypegooseModule } from 'nestjs-typegoose';
 import { ArticleModule } from '../article/article.module';
-import { articleProviders } from '../article/article.providers';
 import { ArticleService } from '../article/article.service';
 import { configOptions } from '../config/config.options';
-import { DatabaseModule } from '../database/database.module';
-import { databaseProviders } from '../database/database.providers';
 import { FeedModule } from '../feed/feed.module';
-import { feedProviders } from '../feed/feed.providers';
 import { FeedService } from '../feed/feed.service';
 import { WorkerController } from './worker.controller';
 import { WorkerService } from './worker.service';
@@ -25,18 +22,14 @@ import { WorkerService } from './worker.service';
       },
     ]),
     ConfigModule.forRoot(configOptions),
-    DatabaseModule,
+    TypegooseModule.forRoot('mongodb://localhost/programmer-dot-sh', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     ArticleModule,
     FeedModule,
   ],
   controllers: [WorkerController],
-  providers: [
-    WorkerService,
-    ArticleService,
-    FeedService,
-    ...databaseProviders,
-    ...articleProviders,
-    ...feedProviders,
-  ],
+  providers: [WorkerService, ArticleService, FeedService],
 })
 export class WorkerModule {}

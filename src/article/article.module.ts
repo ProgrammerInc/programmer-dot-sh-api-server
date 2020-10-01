@@ -1,12 +1,9 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { DatabaseModule } from '../database/database.module';
-import { FeedModule } from '../feed/feed.module';
-import { feedProviders } from '../feed/feed.providers';
-import { FeedService } from '../feed/feed.service';
-import { articleProviders } from './article.providers';
+import { TypegooseModule } from 'nestjs-typegoose';
 import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
+import { Article } from './models/article.model';
 
 @Module({
   imports: [
@@ -19,9 +16,8 @@ import { ArticleService } from './article.service';
         },
       },
     ]),
-    DatabaseModule,
-    forwardRef(() => FeedModule),
+    TypegooseModule.forFeature([{ typegooseClass: Article, schemaOptions: { timestamps: true } }]),
   ],
-  providers: [ArticleResolver, ArticleService, FeedService, ...articleProviders, ...feedProviders],
+  providers: [ArticleResolver, ArticleService],
 })
 export class ArticleModule {}
