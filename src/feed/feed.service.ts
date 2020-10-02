@@ -13,12 +13,13 @@ export class FeedService {
     @InjectModel(Feed) private readonly feedModel: ReturnModelType<typeof Feed>,
   ) {}
 
-  async create(feed: CreateFeedInput): Promise<Feed> {
-    const createdFeed = new this.feedModel(feed);
+  async create(createFeedInput: CreateFeedInput): Promise<Feed> {
+    const feed = new this.feedModel(createFeedInput);
+    const createdFeed = await feed.save();
 
     this.workerClient.emit<number>('feed_created', createdFeed);
 
-    return createdFeed.save();
+    return createdFeed;
   }
 
   async findAll(): Promise<Feed[]> {
@@ -31,7 +32,7 @@ export class FeedService {
     return feed;
   }
 
-  async update(id: string, feed: UpdateFeedInput) {
+  async update(id: string, feed: UpdateFeedInput): Promise<Feed> {
     const updatedFeed = await this.feedModel.findByIdAndUpdate(id, feed, {
       new: true,
     });
@@ -43,5 +44,11 @@ export class FeedService {
     const deletedFeed = await this.feedModel.findByIdAndRemove(id);
 
     return deletedFeed;
+  }
+
+  async articles(id: string): Promise<any> {
+    const feed = await this.feedModel.findById(id).populate('articles');
+
+    return feed.articles;
   }
 }

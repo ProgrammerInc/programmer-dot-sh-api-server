@@ -42,5 +42,5 @@ export class CreateArticleInput {
   publishedAt?: Date;
 
   @Field({ nullable: true })
-  feedId?: string;
+  feed?: string;
 }

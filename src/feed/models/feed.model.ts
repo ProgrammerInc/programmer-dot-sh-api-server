@@ -1,6 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { prop, Ref } from '@typegoose/typegoose';
 import { Article } from '../../article/models/article.model';
+import { CreateFeedInput } from '../dto/create-feed.input';
+import { UpdateFeedInput } from '../dto/update-feed.input';
 
 @ObjectType()
 export class Feed {
@@ -55,7 +57,7 @@ export class Feed {
   @prop({ required: true })
   published: boolean;
 
-  @Field((_type) => Article)
+  @Field((_type) => [Article])
   @prop({ ref: () => Article })
   public articles?: Ref<Article>[];
 
@@ -64,4 +66,19 @@ export class Feed {
 
   @Field()
   updatedAt: Date;
+
+  constructor(feed: CreateFeedInput | UpdateFeedInput) {
+    this.author = feed.author;
+    this.alias = feed.alias;
+    this.description = feed.description;
+    this.feedType = feed.feedType;
+    this.feedUrl = feed.feedUrl;
+    this.image = feed.image;
+    this.lang = feed.lang;
+    this.logo = feed.logo;
+    this.published = feed.published;
+    this.publisher = feed.publisher;
+    this.title = feed.title;
+    this.url = feed.url;
+  }
 }

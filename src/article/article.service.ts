@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
+import { Feed } from '../feed/models/feed.model';
 import { CreateArticleInput } from './dto/create-article.input';
 import { UpdateArticleInput } from './dto/update-article.input';
 import { Article } from './models/article.model';
@@ -9,12 +10,22 @@ import { Article } from './models/article.model';
 export class ArticleService {
   constructor(
     @InjectModel(Article) private readonly articleModel: ReturnModelType<typeof Article>,
+    @InjectModel(Feed) private readonly feedModel: ReturnModelType<typeof Feed>,
   ) {}
 
-  async create(article: CreateArticleInput): Promise<Article> {
-    const createdArticle = new this.articleModel(article);
+  async create(createArticleInput: CreateArticleInput): Promise<Article> {
+    const article = new Article(createArticleInput);
 
-    return createdArticle.save();
+    const newArticle = new this.articleModel(article);
+    const createdArticle = await newArticle.save();
+
+    await this.feedModel.findByIdAndUpdate(article.feed, {
+      $push: {
+        articles: createdArticle.id,
+      },
+    });
+
+    return createdArticle;
   }
 
   async findAll(): Promise<Article[]> {
@@ -27,7 +38,9 @@ export class ArticleService {
     return article;
   }
 
-  async update(id: string, article: UpdateArticleInput) {
+  async update(id: string, updateArticleInput: UpdateArticleInput) {
+    const article = new Article(updateArticleInput);
+
     const updatedArticle = await this.articleModel.findByIdAndUpdate(id, article, { new: true });
 
     return updatedArticle;
@@ -37,5 +50,11 @@ export class ArticleService {
     const deletedArticle = await this.articleModel.findByIdAndRemove(id);
 
     return deletedArticle;
+  }
+
+  async feed(id: string): Promise<any> {
+    const article = await this.articleModel.findById(id).populate('feed');
+
+    return article.feed;
   }
 }

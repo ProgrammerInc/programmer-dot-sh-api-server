@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypegooseModule } from 'nestjs-typegoose';
+import { redisOptions } from '../config/redis.options';
 import { FeedResolver } from './feed.resolver';
 import { FeedService } from './feed.service';
 import { Feed } from './models/feed.model';
@@ -11,9 +12,7 @@ import { Feed } from './models/feed.model';
       {
         name: 'NEWS_FEED_WORKER',
         transport: Transport.REDIS,
-        options: {
-          url: process.env.REDIS_URL || 'redis://localhost:6379',
-        },
+        options: redisOptions,
       },
     ]),
     TypegooseModule.forFeature([{ typegooseClass: Feed, schemaOptions: { timestamps: true } }]),

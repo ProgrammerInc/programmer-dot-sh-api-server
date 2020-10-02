@@ -1,4 +1,5 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Feed } from '../feed/models/feed.model';
 import { ArticleService } from './article.service';
 import { CreateArticleInput } from './dto/create-article.input';
 import { UpdateArticleInput } from './dto/update-article.input';
@@ -31,5 +32,12 @@ export class ArticleResolver {
   @Mutation(() => Article)
   removeArticle(@Args('id') id: string): Promise<any> {
     return this.articleService.remove(id);
+  }
+
+  @ResolveField()
+  async feed(@Parent() article: Article): Promise<Feed> {
+    const { id } = article;
+
+    return this.articleService.feed(id);
   }
 }

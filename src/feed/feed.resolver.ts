@@ -1,4 +1,5 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Article } from '../article/models/article.model';
 import { CreateFeedInput } from './dto/create-feed.input';
 import { UpdateFeedInput } from './dto/update-feed.input';
 import { FeedService } from './feed.service';
@@ -31,5 +32,12 @@ export class FeedResolver {
   @Mutation(() => Feed)
   removeFeed(@Args('id') id: string): Promise<any> {
     return this.feedService.remove(id);
+  }
+
+  @ResolveField()
+  async articles(@Parent() feed: Feed): Promise<Article[]> {
+    const { id } = feed;
+
+    return this.feedService.articles(id);
   }
 }

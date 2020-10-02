@@ -25,7 +25,7 @@ input CreateArticleInput {
   author: String
   content: String
   description: String
-  feedId: String
+  feed: String
   guid: String
   image: String
   lang: String
@@ -37,6 +37,21 @@ input CreateArticleInput {
   url: String!
 }
 
+input CreateFeedInput {
+  alias: String
+  author: String
+  description: String
+  feedType: FeedType = NONE
+  feedUrl: String
+  image: String
+  lang: String
+  logo: String
+  published: Boolean = true
+  publisher: String
+  title: String
+  url: String
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -44,7 +59,7 @@ scalar DateTime
 
 type Feed {
   alias: String
-  articles: Article
+  articles: [Article!]
   author: String
   createdAt: DateTime!
   description: String
@@ -61,22 +76,33 @@ type Feed {
   url: String!
 }
 
+enum FeedType {
+  ATOM
+  NONE
+  RSS
+}
+
 type Mutation {
   createArticle(article: CreateArticleInput!): Article!
+  createFeed(feed: CreateFeedInput!): Feed!
   removeArticle(id: String!): Article!
+  removeFeed(id: String!): Feed!
   updateArticle(article: UpdateArticleInput!): Article!
+  updateFeed(feed: UpdateFeedInput!): Feed!
 }
 
 type Query {
   article(id: String!): Article!
   articles: [Article!]!
+  feed(id: String!): Feed!
+  feeds: [Feed!]!
 }
 
 input UpdateArticleInput {
   author: String
   content: String
   description: String
-  feedId: String
+  feed: String
   guid: String
   id: String
   image: String
@@ -84,6 +110,22 @@ input UpdateArticleInput {
   logo: String
   published: Boolean = true
   publishedAt: DateTime
+  publisher: String
+  title: String
+  url: String
+}
+
+input UpdateFeedInput {
+  alias: String
+  author: String
+  description: String
+  feedType: FeedType = NONE
+  feedUrl: String
+  id: String
+  image: String
+  lang: String
+  logo: String
+  published: Boolean = true
   publisher: String
   title: String
   url: String

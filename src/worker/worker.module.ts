@@ -4,9 +4,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { ArticleModule } from '../article/article.module';
 import { ArticleService } from '../article/article.service';
+import { Article } from '../article/models/article.model';
 import { configOptions } from '../config/config.options';
+import { redisOptions } from '../config/redis.options';
+import { typegooseOptions } from '../config/typegoose.options';
 import { FeedModule } from '../feed/feed.module';
 import { FeedService } from '../feed/feed.service';
+import { Feed } from '../feed/models/feed.model';
 import { WorkerController } from './worker.controller';
 import { WorkerService } from './worker.service';
 
@@ -16,16 +20,18 @@ import { WorkerService } from './worker.service';
       {
         name: 'NEWS_FEED_WORKER',
         transport: Transport.REDIS,
-        options: {
-          url: process.env.REDIS_URL || 'redis://localhost:6379',
-        },
+        options: redisOptions,
       },
     ]),
     ConfigModule.forRoot(configOptions),
-    TypegooseModule.forRoot('mongodb://localhost/programmer-dot-sh', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }),
+    TypegooseModule.forRoot(
+      process.env.DATABASE_URL || 'mongodb://localhost/programmer-dot-sh',
+      typegooseOptions,
+    ),
+    TypegooseModule.forFeature([
+      { typegooseClass: Article, schemaOptions: { timestamps: true } },
+      { typegooseClass: Feed, schemaOptions: { timestamps: true } },
+    ]),
     ArticleModule,
     FeedModule,
   ],

@@ -44,5 +44,5 @@ export class UpdateArticleInput extends PartialType(CreateArticleInput) {
   publishedAt?: Date;
 
   @Field({ nullable: true })
-  feedId?: string;
+  feed?: string;
 }

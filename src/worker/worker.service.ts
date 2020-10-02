@@ -37,10 +37,10 @@ export class WorkerService {
     metaUrl(),
   ]);
 
-  async feedCreated(data: Feed): Promise<void> {
+  async feedCreated(data: any): Promise<void> {
     const parser = new Parser();
 
-    const { id, url } = data;
+    const { _id, url } = data;
 
     const response = await fetch(url);
 
@@ -62,7 +62,7 @@ export class WorkerService {
 
       const feed = await parser.parseURL(url);
 
-      await this.feedService.update(id, {
+      await this.feedService.update(_id, {
         title: feed.title || metadata.title,
         description: feed.description || metadata.description,
         author: metadata.author,
@@ -98,7 +98,7 @@ export class WorkerService {
           guid: item.id,
           published: true,
           publishedAt: new Date(item.pubDate) || new Date(metadata.date),
-          feedId: id,
+          feed: _id,
         });
       });
     }
@@ -137,7 +137,7 @@ export class WorkerService {
           guid: item.id,
           published: true,
           publishedAt: new Date(item.pubDate) || new Date(metadata.date),
-          feedId: id,
+          feed: id,
         });
       });
     });

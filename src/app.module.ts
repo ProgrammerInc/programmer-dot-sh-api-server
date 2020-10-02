@@ -10,20 +10,23 @@ import { ArticleModule } from './article/article.module';
 import { configOptions } from './config/config.options';
 import { graphqlOptions } from './config/graphql.options';
 import { staticOptions } from './config/static.options';
+import { typegooseOptions } from './config/typegoose.options';
+import { FeedModule } from './feed/feed.module';
 import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(configOptions),
-    TypegooseModule.forRoot('mongodb://localhost/programmer-dot-sh', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }),
+    TypegooseModule.forRoot(
+      process.env.DATABASE_URL || 'mongodb://localhost/programmer-dot-sh',
+      typegooseOptions,
+    ),
     GraphQLModule.forRoot(graphqlOptions),
     HealthModule,
     ServeStaticModule.forRoot(staticOptions),
     TerminusModule,
     ArticleModule,
+    FeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
