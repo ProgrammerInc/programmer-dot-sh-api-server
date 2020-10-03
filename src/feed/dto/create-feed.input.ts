@@ -40,4 +40,7 @@ export class CreateFeedInput {
 
   @Field({ defaultValue: true })
   published: boolean;
+
+  @Field({ nullable: true })
+  category?: string;
 }

@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { ReturnModelType } from '@typegoose/typegoose';
+import { Ref, ReturnModelType } from '@typegoose/typegoose';
+import { ObjectId } from 'bson';
 import { InjectModel } from 'nestjs-typegoose';
+import { Category } from '../category/models/category.model';
 import { Feed } from '../feed/models/feed.model';
+import { Keyword } from '../keyword/models/keyword.model';
 import { CreateArticleInput } from './dto/create-article.input';
 import { UpdateArticleInput } from './dto/update-article.input';
 import { Article } from './models/article.model';
@@ -52,9 +55,21 @@ export class ArticleService {
     return deletedArticle;
   }
 
-  async feed(id: string): Promise<any> {
+  async category(id: string): Promise<Ref<Category, ObjectId>> {
+    const article = await this.articleModel.findById(id).populate('category');
+
+    return article.category;
+  }
+
+  async feed(id: string): Promise<Ref<Feed, ObjectId>> {
     const article = await this.articleModel.findById(id).populate('feed');
 
     return article.feed;
+  }
+
+  async keywords(id: string): Promise<Ref<Keyword, ObjectId>[]> {
+    const article = await this.articleModel.findById(id).populate('keywords');
+
+    return article.keywords;
   }
 }

@@ -1,71 +1,77 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { prop, Ref } from '@typegoose/typegoose';
+import { ObjectId } from 'bson';
 import { Article } from '../../article/models/article.model';
+import { Category } from '../../category/models/category.model';
 import { CreateFeedInput } from '../dto/create-feed.input';
 import { UpdateFeedInput } from '../dto/update-feed.input';
 
 @ObjectType()
 export class Feed {
   @Field()
-  id: string;
+  public id: string;
 
   @Field({ nullable: true })
   @prop()
-  title?: string;
+  public title?: string;
 
   @Field({ nullable: true })
   @prop()
-  description?: string;
+  public description?: string;
 
   @Field({ nullable: true })
   @prop()
-  author?: string;
+  public author?: string;
 
   @Field({ nullable: true })
   @prop()
-  image?: string;
+  public image?: string;
 
   @Field({ nullable: true })
   @prop()
-  logo?: string;
+  public logo?: string;
 
   @Field({ nullable: true })
   @prop()
-  lang?: string;
+  public lang?: string;
 
   @Field({ nullable: true })
   @prop()
-  path?: string;
+  public path?: string;
 
   @Field()
   @prop({ required: true })
-  url: string;
+  public url: string;
 
   @Field({ nullable: true })
   @prop()
-  feedUrl?: string;
+  public feedUrl?: string;
 
   @Field({ nullable: true })
   @prop()
-  feedType?: string;
+  public feedType?: string;
 
   @Field({ nullable: true })
   @prop()
-  publisher?: string;
+  public publisher?: string;
 
   @Field()
   @prop({ required: true })
-  published: boolean;
+  public published: boolean;
+
+  @Field((_type) => Category)
+  @prop({ ref: () => Category, index: true })
+  public category?: Ref<Category>;
 
   @Field((_type) => [Article])
   @prop({ ref: () => Article })
   public articles?: Ref<Article>[];
 
   @Field()
-  createdAt: Date;
+  public createdAt: Date;
 
   @Field()
-  updatedAt: Date;
+  public updatedAt: Date;
 
   constructor(feed: CreateFeedInput | UpdateFeedInput) {
     this.author = feed.author;
@@ -80,5 +86,6 @@ export class Feed {
     this.publisher = feed.publisher;
     this.title = feed.title;
     this.url = feed.url;
+    this.category = feed.category ? new ObjectId(feed.category) : null;
   }
 }

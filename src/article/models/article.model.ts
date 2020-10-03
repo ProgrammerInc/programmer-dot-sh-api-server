@@ -1,76 +1,86 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { prop, Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
+import { Category } from '../../category/models/category.model';
 import { Feed } from '../../feed/models/feed.model';
+import { Keyword } from '../../keyword/models/keyword.model';
 import { CreateArticleInput } from '../dto/create-article.input';
 import { UpdateArticleInput } from '../dto/update-article.input';
 
 @ObjectType()
 export class Article {
   @Field()
-  id: string;
+  public id: string;
 
   @Field()
   @prop({ required: true })
-  title: string;
+  public title: string;
 
   @Field({ nullable: true })
   @prop()
-  description?: string;
+  public description?: string;
 
   @Field({ nullable: true })
   @prop()
-  content?: string;
+  public content?: string;
 
   @Field({ nullable: true })
   @prop()
-  author?: string;
+  public author?: string;
 
   @Field({ nullable: true })
   @prop()
-  image?: string;
+  public image?: string;
 
   @Field({ nullable: true })
   @prop()
-  logo?: string;
+  public logo?: string;
 
   @Field({ nullable: true })
   @prop()
-  lang?: string;
+  public lang?: string;
 
   @Field({ nullable: true })
   @prop()
-  path?: string;
+  public path?: string;
 
   @Field()
   @prop({ required: true })
-  url: string;
+  public url: string;
 
   @Field({ nullable: true })
   @prop()
-  guid?: string;
+  public guid?: string;
 
   @Field({ nullable: true })
   @prop()
-  publisher?: string;
+  public publisher?: string;
 
   @Field()
   @prop({ required: true })
-  published: boolean;
+  public published: boolean;
 
   @Field({ nullable: true })
   @prop()
   publishedAt?: Date;
 
+  @Field((_type) => Category)
+  @prop({ ref: () => Category, index: true })
+  public category?: Ref<Category>;
+
   @Field((_type) => Feed)
   @prop({ ref: () => Feed, index: true })
   public feed?: Ref<Feed>;
 
-  @Field()
-  createdAt: Date;
+  @Field((_type) => [Keyword])
+  @prop({ ref: () => Keyword })
+  public keywords?: Ref<Keyword>[];
 
   @Field()
-  updatedAt: Date;
+  public createdAt: Date;
+
+  @Field()
+  public updatedAt: Date;
 
   constructor(article: CreateArticleInput | UpdateArticleInput) {
     this.author = article.author;
@@ -86,6 +96,7 @@ export class Article {
     this.publisher = article.publisher;
     this.title = article.title;
     this.url = article.url;
-    this.feed = new ObjectId(article.feed);
+    this.category = article.category ? new ObjectId(article.category) : null;
+    this.feed = article.feed ? new ObjectId(article.feed) : null;
   }
 }

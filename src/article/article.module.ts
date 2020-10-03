@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypegooseModule } from 'nestjs-typegoose';
+import { Category } from '../category/models/category.model';
 import { redisOptions } from '../config/redis.options';
-import { FeedModule } from '../feed/feed.module';
-import { FeedService } from '../feed/feed.service';
 import { Feed } from '../feed/models/feed.model';
+import { Keyword } from '../keyword/models/keyword.model';
 import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
 import { Article } from './models/article.model';
@@ -20,10 +20,11 @@ import { Article } from './models/article.model';
     ]),
     TypegooseModule.forFeature([
       { typegooseClass: Article, schemaOptions: { timestamps: true } },
+      { typegooseClass: Category, schemaOptions: { timestamps: true } },
       { typegooseClass: Feed, schemaOptions: { timestamps: true } },
+      { typegooseClass: Keyword },
     ]),
-    FeedModule,
   ],
-  providers: [ArticleResolver, ArticleService, FeedService],
+  providers: [ArticleResolver, ArticleService],
 })
 export class ArticleModule {}

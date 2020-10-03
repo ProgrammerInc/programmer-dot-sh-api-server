@@ -43,4 +43,7 @@ export class UpdateFeedInput extends PartialType(CreateFeedInput) {
 
   @Field({ defaultValue: true })
   published: boolean;
+
+  @Field({ nullable: true })
+  category?: string;
 }

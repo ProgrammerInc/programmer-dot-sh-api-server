@@ -1,7 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { ReturnModelType } from '@typegoose/typegoose';
+import { Ref, ReturnModelType } from '@typegoose/typegoose';
+import { ObjectId } from 'bson';
 import { InjectModel } from 'nestjs-typegoose';
+import { Article } from '../article/models/article.model';
+import { Category } from '../category/models/category.model';
 import { CreateFeedInput } from './dto/create-feed.input';
 import { UpdateFeedInput } from './dto/update-feed.input';
 import { Feed } from './models/feed.model';
@@ -32,7 +35,8 @@ export class FeedService {
     return feed;
   }
 
-  async update(id: string, feed: UpdateFeedInput): Promise<Feed> {
+  async update(id: string, updateFeedInput: UpdateFeedInput): Promise<Feed> {
+    const feed = new this.feedModel(updateFeedInput);
     const updatedFeed = await this.feedModel.findByIdAndUpdate(id, feed, {
       new: true,
     });
@@ -46,7 +50,13 @@ export class FeedService {
     return deletedFeed;
   }
 
-  async articles(id: string): Promise<any> {
+  async category(id: string): Promise<Ref<Category, ObjectId>> {
+    const feed = await this.feedModel.findById(id).populate('category');
+
+    return feed.category;
+  }
+
+  async articles(id: string): Promise<Ref<Article, ObjectId>[]> {
     const feed = await this.feedModel.findById(id).populate('articles');
 
     return feed.articles;
