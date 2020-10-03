@@ -6,8 +6,9 @@ import { ArticleModule } from '../article/article.module';
 import { ArticleService } from '../article/article.service';
 import { Article } from '../article/models/article.model';
 import { configOptions } from '../config/config.options';
+import { DATABASE_CONNECTION } from '../config/constants.options';
+import { typegooseOptions } from '../config/mongoose.options';
 import { redisOptions } from '../config/redis.options';
-import { typegooseOptions } from '../config/typegoose.options';
 import { FeedModule } from '../feed/feed.module';
 import { FeedService } from '../feed/feed.service';
 import { Feed } from '../feed/models/feed.model';
@@ -28,10 +29,13 @@ import { WorkerService } from './worker.service';
       process.env.DATABASE_URL || 'mongodb://localhost/programmer-dot-sh',
       typegooseOptions,
     ),
-    TypegooseModule.forFeature([
-      { typegooseClass: Article, schemaOptions: { timestamps: true } },
-      { typegooseClass: Feed, schemaOptions: { timestamps: true } },
-    ]),
+    TypegooseModule.forFeature(
+      [
+        { typegooseClass: Article, schemaOptions: { timestamps: true } },
+        { typegooseClass: Feed, schemaOptions: { timestamps: true } },
+      ],
+      DATABASE_CONNECTION,
+    ),
     ArticleModule,
     FeedModule,
   ],

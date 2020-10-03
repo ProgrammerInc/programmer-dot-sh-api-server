@@ -15,7 +15,9 @@ export const configOptions = {
     ENABLE_RATELIMIT: Joi.boolean().default(false),
     RATELIMIT_WINDOW: Joi.number().default(15),
     RATELIMIT_MAX: Joi.number().default(100),
+    DATABASE_CONNECTION: Joi.string().default('PROGRAMMER-DOT-SH'),
     DATABASE_URL: Joi.string().default('mongodb://localhost/programmer-dot-sh'),
+    DATABASE_TIMEOUT: Joi.number().default(1500),
     REDIS_URL: Joi.string().default('redis://localhost:6379'),
   }),
   validationOptions: {
