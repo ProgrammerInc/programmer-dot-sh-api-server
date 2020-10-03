@@ -5,6 +5,7 @@ import { InjectModel } from 'nestjs-typegoose';
 import { Article } from '../article/models/article.model';
 import { Feed } from '../feed/models/feed.model';
 import { Keyword } from '../keyword/models/keyword.model';
+import { Link } from '../link/models/link.model';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './models/category.model';
@@ -62,5 +63,11 @@ export class CategoryService {
     const category = await this.categoryModel.findById(id).populate('keywords');
 
     return category.keywords;
+  }
+
+  async links(id: string): Promise<Ref<Link, ObjectId>[]> {
+    const category = await this.categoryModel.findById(id).populate('links');
+
+    return category.links;
   }
 }

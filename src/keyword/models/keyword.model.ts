@@ -9,7 +9,7 @@ export class Keyword {
   public id: string;
 
   @Field()
-  @prop({ required: true })
+  @prop({ required: true, unique: true, index: true })
   public name: string;
 
   @Field({ nullable: true })

@@ -31,6 +31,7 @@ type Category {
   feeds: [Feed!]
   id: String!
   keywords: [Keyword!]
+  links: [Link!]
   name: String!
   path: String
   published: Boolean!
@@ -57,7 +58,6 @@ input CreateArticleInput {
 
 input CreateCategoryInput {
   description: String
-  id: String
   name: String!
   path: String
   published: Boolean = true
@@ -80,10 +80,17 @@ input CreateFeedInput {
 }
 
 input CreateKeywordInput {
-  id: String
   name: String!
   published: Boolean = true
   tag: String
+}
+
+input CreateLinkInput {
+  category: String
+  path: String
+  published: Boolean = true
+  url: String!
+  urlCode: String
 }
 
 """
@@ -123,19 +130,33 @@ type Keyword {
   tag: String
 }
 
+type Link {
+  category: Category
+  createdAt: DateTime!
+  id: String!
+  path: String!
+  published: Boolean!
+  updatedAt: DateTime!
+  url: String!
+  urlCode: String!
+}
+
 type Mutation {
   createArticle(article: CreateArticleInput!): Article!
   createCategory(category: CreateCategoryInput!): Category!
   createFeed(feed: CreateFeedInput!): Feed!
   createKeyword(keyword: CreateKeywordInput!): Keyword!
+  createLink(link: CreateLinkInput!): Link!
   removeArticle(id: String!): Article!
   removeCategory(id: String!): Category!
   removeFeed(id: String!): Feed!
   removeKeyword(id: String!): Keyword!
+  removeLink(id: String!): Link!
   updateArticle(article: UpdateArticleInput!): Article!
   updateCategory(category: UpdateCategoryInput!): Category!
   updateFeed(feed: UpdateFeedInput!): Feed!
   updateKeyword(keyword: UpdateKeywordInput!): Keyword!
+  updateLink(link: UpdateLinkInput!): Link!
 }
 
 type Query {
@@ -147,6 +168,8 @@ type Query {
   feeds: [Feed!]!
   keyword(id: String!): Keyword!
   keywords: [Keyword!]!
+  link(id: String!): Link!
+  links: [Link!]!
 }
 
 input UpdateArticleInput {
@@ -197,4 +220,13 @@ input UpdateKeywordInput {
   id: String
   name: String
   tag: String
+}
+
+input UpdateLinkInput {
+  category: String
+  id: String
+  path: String
+  published: Boolean = true
+  url: String!
+  urlCode: String
 }

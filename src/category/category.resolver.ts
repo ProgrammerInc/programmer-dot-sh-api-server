@@ -4,6 +4,7 @@ import { ObjectId } from 'bson';
 import { Article } from '../article/models/article.model';
 import { Feed } from '../feed/models/feed.model';
 import { Keyword } from '../keyword/models/keyword.model';
+import { Link } from '../link/models/link.model';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
@@ -57,5 +58,12 @@ export class CategoryResolver {
     const { id } = category;
 
     return this.categoryService.keywords(id);
+  }
+
+  @ResolveField()
+  async links(@Parent() category: Category): Promise<Ref<Link, ObjectId>[]> {
+    const { id } = category;
+
+    return this.categoryService.links(id);
   }
 }

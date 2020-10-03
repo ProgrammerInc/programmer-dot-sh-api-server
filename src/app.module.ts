@@ -15,6 +15,7 @@ import { typegooseOptions } from './config/typegoose.options';
 import { FeedModule } from './feed/feed.module';
 import { HealthModule } from './health/health.module';
 import { KeywordModule } from './keyword/keyword.module';
+import { LinkModule } from './link/link.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { KeywordModule } from './keyword/keyword.module';
     CategoryModule,
     KeywordModule,
     FeedModule,
+    LinkModule,
   ],
   controllers: [AppController],
   providers: [AppService],

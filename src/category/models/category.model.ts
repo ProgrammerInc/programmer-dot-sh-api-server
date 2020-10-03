@@ -3,6 +3,7 @@ import { prop, Ref } from '@typegoose/typegoose';
 import { Article } from '../../article/models/article.model';
 import { Feed } from '../../feed/models/feed.model';
 import { Keyword } from '../../keyword/models/keyword.model';
+import { Link } from '../../link/models/link.model';
 import { CreateCategoryInput } from '../dto/create-category.input';
 import { UpdateCategoryInput } from '../dto/update-category.input';
 
@@ -38,6 +39,10 @@ export class Category {
   @Field((_type) => [Keyword])
   @prop({ ref: () => Keyword })
   public keywords?: Ref<Keyword>[];
+
+  @Field((_type) => [Link])
+  @prop({ ref: () => Link })
+  public links?: Ref<Link>[];
 
   @Field()
   public createdAt: Date;

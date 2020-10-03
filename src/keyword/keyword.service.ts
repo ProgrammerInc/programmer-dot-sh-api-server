@@ -29,7 +29,8 @@ export class KeywordService {
   }
 
   async update(id: string, updateKeywordInput: UpdateKeywordInput): Promise<Keyword> {
-    const updatedKeyword = await this.keywordModel.findByIdAndUpdate(id, updateKeywordInput, {
+    const keyword = new this.keywordModel(updateKeywordInput);
+    const updatedKeyword = await this.keywordModel.findByIdAndUpdate(id, keyword, {
       new: true,
     });
 

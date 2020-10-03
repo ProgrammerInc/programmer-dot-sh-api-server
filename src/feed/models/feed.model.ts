@@ -40,7 +40,7 @@ export class Feed {
   public path?: string;
 
   @Field()
-  @prop({ required: true })
+  @prop({ required: true, unique: true })
   public url: string;
 
   @Field({ nullable: true })
