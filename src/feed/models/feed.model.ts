@@ -15,10 +15,6 @@ export class Feed {
 
   @Field({ nullable: true })
   @prop()
-  alias?: string;
-
-  @Field({ nullable: true })
-  @prop()
   description?: string;
 
   @Field({ nullable: true })
@@ -36,6 +32,10 @@ export class Feed {
   @Field({ nullable: true })
   @prop()
   lang?: string;
+
+  @Field({ nullable: true })
+  @prop()
+  path?: string;
 
   @Field()
   @prop({ required: true })
@@ -69,13 +69,13 @@ export class Feed {
 
   constructor(feed: CreateFeedInput | UpdateFeedInput) {
     this.author = feed.author;
-    this.alias = feed.alias;
     this.description = feed.description;
     this.feedType = feed.feedType;
     this.feedUrl = feed.feedUrl;
     this.image = feed.image;
     this.lang = feed.lang;
     this.logo = feed.logo;
+    this.path = feed.path;
     this.published = feed.published;
     this.publisher = feed.publisher;
     this.title = feed.title;

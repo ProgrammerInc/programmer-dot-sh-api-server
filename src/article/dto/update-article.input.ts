@@ -28,6 +28,9 @@ export class UpdateArticleInput extends PartialType(CreateArticleInput) {
   @Field({ nullable: true })
   lang?: string;
 
+  @Field({ nullable: true })
+  path?: string;
+
   @Field()
   url?: string;
 

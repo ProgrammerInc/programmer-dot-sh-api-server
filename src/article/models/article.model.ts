@@ -38,6 +38,10 @@ export class Article {
   @prop()
   lang?: string;
 
+  @Field({ nullable: true })
+  @prop()
+  path?: string;
+
   @Field()
   @prop({ required: true })
   url: string;
@@ -76,6 +80,7 @@ export class Article {
     this.image = article.image;
     this.lang = article.lang;
     this.logo = article.logo;
+    this.path = article.path;
     this.published = article.published;
     this.publishedAt = article.publishedAt;
     this.publisher = article.publisher;

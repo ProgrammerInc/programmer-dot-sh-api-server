@@ -13,6 +13,7 @@ type Article {
   image: String
   lang: String
   logo: String
+  path: String
   published: Boolean!
   publishedAt: DateTime
   publisher: String
@@ -30,6 +31,7 @@ input CreateArticleInput {
   image: String
   lang: String
   logo: String
+  path: String
   published: Boolean = true
   publishedAt: DateTime
   publisher: String
@@ -38,7 +40,6 @@ input CreateArticleInput {
 }
 
 input CreateFeedInput {
-  alias: String
   author: String
   description: String
   feedType: FeedType = NONE
@@ -46,6 +47,7 @@ input CreateFeedInput {
   image: String
   lang: String
   logo: String
+  path: String
   published: Boolean = true
   publisher: String
   title: String
@@ -58,7 +60,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Feed {
-  alias: String
   articles: [Article!]
   author: String
   createdAt: DateTime!
@@ -69,6 +70,7 @@ type Feed {
   image: String
   lang: String
   logo: String
+  path: String
   published: Boolean!
   publisher: String
   title: String
@@ -108,6 +110,7 @@ input UpdateArticleInput {
   image: String
   lang: String
   logo: String
+  path: String
   published: Boolean = true
   publishedAt: DateTime
   publisher: String
@@ -116,7 +119,6 @@ input UpdateArticleInput {
 }
 
 input UpdateFeedInput {
-  alias: String
   author: String
   description: String
   feedType: FeedType = NONE
@@ -125,6 +127,7 @@ input UpdateFeedInput {
   image: String
   lang: String
   logo: String
+  path: String
   published: Boolean = true
   publisher: String
   title: String

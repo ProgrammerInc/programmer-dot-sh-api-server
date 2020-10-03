@@ -8,9 +8,6 @@ export class CreateFeedInput {
   title?: string;
 
   @Field({ nullable: true })
-  alias?: string;
-
-  @Field({ nullable: true })
   description?: string;
 
   @Field({ nullable: true })
@@ -24,6 +21,9 @@ export class CreateFeedInput {
 
   @Field({ nullable: true })
   lang?: string;
+
+  @Field({ nullable: true })
+  path?: string;
 
   @Field({ nullable: true })
   @IsNotEmpty()

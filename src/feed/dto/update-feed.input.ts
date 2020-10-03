@@ -12,9 +12,6 @@ export class UpdateFeedInput extends PartialType(CreateFeedInput) {
   title?: string;
 
   @Field({ nullable: true })
-  alias?: string;
-
-  @Field({ nullable: true })
   description?: string;
 
   @Field({ nullable: true })
@@ -28,6 +25,9 @@ export class UpdateFeedInput extends PartialType(CreateFeedInput) {
 
   @Field({ nullable: true })
   lang?: string;
+
+  @Field({ nullable: true })
+  path?: string;
 
   @Field({ nullable: true })
   url?: string;

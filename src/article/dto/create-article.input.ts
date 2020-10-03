@@ -25,6 +25,9 @@ export class CreateArticleInput {
   @Field({ nullable: true })
   lang?: string;
 
+  @Field({ nullable: true })
+  path?: string;
+
   @Field()
   @IsNotEmpty()
   url: string;
