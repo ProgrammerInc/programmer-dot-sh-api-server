@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
@@ -13,7 +14,7 @@ export class FeedResolver {
   constructor(private readonly feedService: FeedService) {}
 
   @Mutation(() => Feed)
-  createFeed(@Args('feed') feed: CreateFeedInput): Promise<Feed> {
+  createFeed(@Args('feed', new ValidationPipe()) feed: CreateFeedInput): Promise<Feed> {
     return this.feedService.create(feed);
   }
 
@@ -28,7 +29,7 @@ export class FeedResolver {
   }
 
   @Mutation(() => Feed)
-  updateFeed(@Args('feed') feed: UpdateFeedInput): Promise<Feed> {
+  updateFeed(@Args('feed', new ValidationPipe()) feed: UpdateFeedInput): Promise<Feed> {
     return this.feedService.update(feed.id, feed);
   }
 

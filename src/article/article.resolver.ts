@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
@@ -14,7 +15,9 @@ export class ArticleResolver {
   constructor(private readonly articleService: ArticleService) {}
 
   @Mutation(() => Article)
-  createArticle(@Args('article') article: CreateArticleInput): Promise<Article> {
+  createArticle(
+    @Args('article', new ValidationPipe()) article: CreateArticleInput,
+  ): Promise<Article> {
     return this.articleService.create(article);
   }
 
@@ -29,7 +32,9 @@ export class ArticleResolver {
   }
 
   @Mutation(() => Article)
-  updateArticle(@Args('article') article: UpdateArticleInput): Promise<Article> {
+  updateArticle(
+    @Args('article', new ValidationPipe()) article: UpdateArticleInput,
+  ): Promise<Article> {
     return this.articleService.update(article.id, article);
   }
 

@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateKeywordInput } from './dto/create-keyword.input';
 import { UpdateKeywordInput } from './dto/update-keyword.input';
@@ -9,7 +10,9 @@ export class KeywordResolver {
   constructor(private readonly keywordService: KeywordService) {}
 
   @Mutation(() => Keyword)
-  createKeyword(@Args('keyword') keyword: CreateKeywordInput): Promise<Keyword> {
+  createKeyword(
+    @Args('keyword', new ValidationPipe()) keyword: CreateKeywordInput,
+  ): Promise<Keyword> {
     return this.keywordService.create(keyword);
   }
 
@@ -24,7 +27,9 @@ export class KeywordResolver {
   }
 
   @Mutation(() => Keyword)
-  updateKeyword(@Args('keyword') keyword: UpdateKeywordInput): Promise<Keyword> {
+  updateKeyword(
+    @Args('keyword', new ValidationPipe()) keyword: UpdateKeywordInput,
+  ): Promise<Keyword> {
     return this.keywordService.update(keyword.id, keyword);
   }
 

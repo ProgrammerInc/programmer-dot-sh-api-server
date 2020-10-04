@@ -34,7 +34,8 @@ export class CategoryService {
   }
 
   async update(id: string, updateCategoryInput: UpdateCategoryInput): Promise<Category> {
-    const updatedCategory = await this.categoryModel.findByIdAndUpdate(id, updateCategoryInput, {
+    const category = new this.categoryModel(updateCategoryInput);
+    const updatedCategory = await this.categoryModel.findByIdAndUpdate(id, category, {
       new: true,
     });
 

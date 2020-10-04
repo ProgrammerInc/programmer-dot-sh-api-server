@@ -76,7 +76,7 @@ input CreateFeedInput {
   published: Boolean = true
   publisher: String
   title: String
-  url: String
+  url: String!
 }
 
 input CreateKeywordInput {
@@ -194,7 +194,7 @@ input UpdateArticleInput {
 input UpdateCategoryInput {
   description: String
   id: String
-  name: String
+  name: String!
   path: String
   published: Boolean = true
 }
@@ -218,7 +218,7 @@ input UpdateFeedInput {
 
 input UpdateKeywordInput {
   id: String
-  name: String
+  name: String!
   tag: String
 }
 

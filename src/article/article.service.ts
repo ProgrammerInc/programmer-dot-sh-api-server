@@ -43,7 +43,6 @@ export class ArticleService {
 
   async update(id: string, updateArticleInput: UpdateArticleInput) {
     const article = new Article(updateArticleInput);
-
     const updatedArticle = await this.articleModel.findByIdAndUpdate(id, article, { new: true });
 
     return updatedArticle;

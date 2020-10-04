@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
@@ -12,7 +13,7 @@ export class LinkResolver {
   constructor(private readonly linkService: LinkService) {}
 
   @Mutation(() => Link)
-  createLink(@Args('link') link: CreateLinkInput): Promise<Link> {
+  createLink(@Args('link', new ValidationPipe()) link: CreateLinkInput): Promise<Link> {
     return this.linkService.create(link);
   }
 
@@ -27,7 +28,7 @@ export class LinkResolver {
   }
 
   @Mutation(() => Link)
-  updateLink(@Args('link') link: UpdateLinkInput): Promise<Link> {
+  updateLink(@Args('link', new ValidationPipe()) link: UpdateLinkInput): Promise<Link> {
     return this.linkService.update(link.id, link);
   }
 

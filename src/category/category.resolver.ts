@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
@@ -15,7 +16,9 @@ export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Mutation(() => Category)
-  createCategory(@Args('category') category: CreateCategoryInput): Promise<Category> {
+  createCategory(
+    @Args('category', new ValidationPipe()) category: CreateCategoryInput,
+  ): Promise<Category> {
     return this.categoryService.create(category);
   }
 
@@ -30,7 +33,9 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Category)
-  updateCategory(@Args('category') category: UpdateCategoryInput): Promise<Category> {
+  updateCategory(
+    @Args('category', new ValidationPipe()) category: UpdateCategoryInput,
+  ): Promise<Category> {
     return this.categoryService.update(category.id, category);
   }
 
