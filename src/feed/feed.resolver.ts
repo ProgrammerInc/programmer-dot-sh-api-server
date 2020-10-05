@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
@@ -11,6 +11,9 @@ import { Feed } from './models/feed.model';
 
 @Resolver(() => Feed)
 export class FeedResolver {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
+  private readonly logger = new Logger(FeedResolver.name);
+
   constructor(private readonly feedService: FeedService) {}
 
   @Mutation(() => Feed)

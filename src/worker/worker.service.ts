@@ -20,8 +20,6 @@ import { Feed } from '../feed/models/feed.model';
 
 @Injectable()
 export class WorkerService {
-  constructor(private articleService: ArticleService, private feedService: FeedService) {}
-
   private readonly logger = new Logger(WorkerService.name);
   private readonly scraper = metascraper([
     metaAuthor(),
@@ -36,6 +34,8 @@ export class WorkerService {
     metaTitle(),
     metaUrl(),
   ]);
+
+  constructor(private articleService: ArticleService, private feedService: FeedService) {}
 
   async feedCreated(data: any): Promise<void> {
     const parser = new Parser();

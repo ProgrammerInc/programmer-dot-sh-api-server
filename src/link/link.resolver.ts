@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
@@ -10,6 +10,9 @@ import { Link } from './models/link.model';
 
 @Resolver(() => Link)
 export class LinkResolver {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
+  private readonly logger = new Logger(LinkResolver.name);
+
   constructor(private readonly linkService: LinkService) {}
 
   @Mutation(() => Link)

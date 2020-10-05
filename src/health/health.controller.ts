@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
 import {
   HealthCheck,
@@ -10,6 +10,8 @@ import mongoose from 'mongoose';
 
 @Controller('health')
 export class HealthController {
+  private readonly logger = new Logger(HealthController.name);
+
   constructor(
     private health: HealthCheckService,
     private microService: MicroserviceHealthIndicator,
@@ -19,6 +21,8 @@ export class HealthController {
   @Get()
   @HealthCheck()
   check() {
+    this.logger.log('Running Database and Microservice Health Checks');
+
     return this.health.check([
       () =>
         this.mongooseService.pingCheck('mongodb', {

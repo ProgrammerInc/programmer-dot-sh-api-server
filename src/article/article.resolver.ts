@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Ref } from '@typegoose/typegoose';
 import { ObjectId } from 'bson';
@@ -12,6 +12,9 @@ import { Article } from './models/article.model';
 
 @Resolver(() => Article)
 export class ArticleResolver {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
+  private readonly logger = new Logger(ArticleResolver.name);
+
   constructor(private readonly articleService: ArticleService) {}
 
   @Mutation(() => Article)

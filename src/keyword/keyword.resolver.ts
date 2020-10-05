@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateKeywordInput } from './dto/create-keyword.input';
 import { UpdateKeywordInput } from './dto/update-keyword.input';
@@ -7,6 +7,9 @@ import { Keyword } from './models/keyword.model';
 
 @Resolver(() => Keyword)
 export class KeywordResolver {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
+  private readonly logger = new Logger(KeywordResolver.name);
+
   constructor(private readonly keywordService: KeywordService) {}
 
   @Mutation(() => Keyword)
