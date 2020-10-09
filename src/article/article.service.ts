@@ -48,7 +48,7 @@ export class ArticleService {
     return article;
   }
 
-  async update(id: string, updateArticleInput: UpdateArticleInput) {
+  async update(id: string, updateArticleInput: UpdateArticleInput): Promise<Article> {
     this.logger.verbose(`Updating Article with Input: ${JSON.stringify(updateArticleInput)}`);
 
     const article = new Article(updateArticleInput);

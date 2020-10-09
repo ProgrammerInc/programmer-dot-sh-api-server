@@ -16,33 +16,45 @@ export class LinkResolver {
   constructor(private readonly linkService: LinkService) {}
 
   @Mutation(() => Link)
-  createLink(@Args('link', new ValidationPipe()) link: CreateLinkInput): Promise<Link> {
-    return this.linkService.create(link);
+  createLink(@Args('link', new ValidationPipe()) createLinkInput: CreateLinkInput): Promise<Link> {
+    this.logger.verbose(`Creating Link with Input: ${JSON.stringify(createLinkInput)}`);
+
+    return this.linkService.create(createLinkInput);
   }
 
   @Query(() => [Link], { name: 'links' })
   findAll(): Promise<Link[]> {
+    this.logger.verbose(`Finding All Links with Input: ${JSON.stringify({})}`);
+
     return this.linkService.findAll();
   }
 
   @Query(() => Link, { name: 'link' })
   findOne(@Args('id') id: string): Promise<Link> {
+    this.logger.verbose(`Finding Link by ID: ${id}`);
+
     return this.linkService.findOne(id);
   }
 
   @Mutation(() => Link)
-  updateLink(@Args('link', new ValidationPipe()) link: UpdateLinkInput): Promise<Link> {
-    return this.linkService.update(link.id, link);
+  updateLink(@Args('link', new ValidationPipe()) updateLinkInput: UpdateLinkInput): Promise<Link> {
+    this.logger.verbose(`Updating Link with Input: ${JSON.stringify(updateLinkInput)}`);
+
+    return this.linkService.update(updateLinkInput.id, updateLinkInput);
   }
 
   @Mutation(() => Link)
   removeLink(@Args('id') id: string): Promise<any> {
+    this.logger.verbose(`Deleting Link by ID: ${id}`);
+
     return this.linkService.remove(id);
   }
 
   @ResolveField()
   async category(@Parent() link: Link): Promise<Ref<Category, ObjectId>> {
     const { id } = link;
+
+    this.logger.verbose(`Resolving Category for Link by ID: ${id}`);
 
     return this.linkService.category(id);
   }

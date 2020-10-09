@@ -17,27 +17,37 @@ export class FeedResolver {
   constructor(private readonly feedService: FeedService) {}
 
   @Mutation(() => Feed)
-  createFeed(@Args('feed', new ValidationPipe()) feed: CreateFeedInput): Promise<Feed> {
-    return this.feedService.create(feed);
+  createFeed(@Args('feed', new ValidationPipe()) createFeedInput: CreateFeedInput): Promise<Feed> {
+    this.logger.verbose(`Creating Feed with Input: ${JSON.stringify(createFeedInput)}`);
+
+    return this.feedService.create(createFeedInput);
   }
 
   @Query(() => [Feed], { name: 'feeds' })
   findAll(): Promise<Feed[]> {
+    this.logger.verbose(`Finding All Feeds with Input: ${JSON.stringify({})}`);
+
     return this.feedService.findAll();
   }
 
   @Query(() => Feed, { name: 'feed' })
   findOne(@Args('id') id: string): Promise<Feed> {
+    this.logger.verbose(`Finding Feed by ID: ${id}`);
+
     return this.feedService.findOne(id);
   }
 
   @Mutation(() => Feed)
-  updateFeed(@Args('feed', new ValidationPipe()) feed: UpdateFeedInput): Promise<Feed> {
-    return this.feedService.update(feed.id, feed);
+  updateFeed(@Args('feed', new ValidationPipe()) updateFeedInput: UpdateFeedInput): Promise<Feed> {
+    this.logger.verbose(`Updating Feed with Input: ${JSON.stringify(updateFeedInput)}`);
+
+    return this.feedService.update(updateFeedInput.id, updateFeedInput);
   }
 
   @Mutation(() => Feed)
   removeFeed(@Args('id') id: string): Promise<any> {
+    this.logger.verbose(`Deleting Feed by ID: ${id}`);
+
     return this.feedService.remove(id);
   }
 
@@ -45,12 +55,16 @@ export class FeedResolver {
   async category(@Parent() feed: Feed): Promise<Ref<Category, ObjectId>> {
     const { id } = feed;
 
+    this.logger.verbose(`Resolving Category for Feed by ID: ${id}`);
+
     return this.feedService.category(id);
   }
 
   @ResolveField()
   async articles(@Parent() feed: Feed): Promise<Ref<Article, ObjectId>[]> {
     const { id } = feed;
+
+    this.logger.verbose(`Resolving Articles for Feed by ID: ${id}`);
 
     return this.feedService.articles(id);
   }

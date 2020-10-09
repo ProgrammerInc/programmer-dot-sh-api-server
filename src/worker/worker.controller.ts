@@ -11,14 +11,14 @@ export class WorkerController {
 
   @EventPattern('feed_created')
   async feedCreated(data: Feed): Promise<void> {
-    this.logger.verbose(`Received New Feed: ${JSON.stringify(data)}`);
+    this.logger.log(`Received New Feed: ${JSON.stringify(data)}`);
 
     return this.workerService.feedCreated(data);
   }
 
   @EventPattern('update_feeds')
   async updateFeeds(data: Feed[]): Promise<void> {
-    this.logger.verbose(`Updating Feeds: ${JSON.stringify(data)}`);
+    this.logger.log(`Updating Feeds: ${JSON.stringify(data)}`);
 
     return this.workerService.updateFeeds(data);
   }

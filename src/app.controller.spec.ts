@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TestLogger } from './mocks/logger.mock';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -12,11 +13,12 @@ describe('AppController', () => {
     }).compile();
 
     appController = app.get<AppController>(AppController);
+    app.useLogger(new TestLogger());
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return "Hello Programmer!"', () => {
+      expect(appController.getHello()).toBe('Hello Programmer!');
     });
   });
 });

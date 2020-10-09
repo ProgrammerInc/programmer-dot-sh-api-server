@@ -28,7 +28,7 @@ export class CategoryService {
   }
 
   async findAll(): Promise<Category[]> {
-    this.logger.verbose(`Finding All Categorys with Input: ${JSON.stringify({})}`);
+    this.logger.verbose(`Finding All Categories with Input: ${JSON.stringify({})}`);
 
     return this.categoryModel.find().exec();
   }

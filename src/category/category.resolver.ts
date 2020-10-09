@@ -20,36 +20,48 @@ export class CategoryResolver {
 
   @Mutation(() => Category)
   createCategory(
-    @Args('category', new ValidationPipe()) category: CreateCategoryInput,
+    @Args('category', new ValidationPipe()) createCategoryInput: CreateCategoryInput,
   ): Promise<Category> {
-    return this.categoryService.create(category);
+    this.logger.verbose(`Creating Category with Input: ${JSON.stringify(createCategoryInput)}`);
+
+    return this.categoryService.create(createCategoryInput);
   }
 
   @Query(() => [Category], { name: 'categories' })
   findAll(): Promise<Category[]> {
+    this.logger.verbose(`Finding All Categories with Input: ${JSON.stringify({})}`);
+
     return this.categoryService.findAll();
   }
 
   @Query(() => Category, { name: 'category' })
   findOne(@Args('id') id: string): Promise<Category> {
+    this.logger.verbose(`Finding Category by ID: ${id}`);
+
     return this.categoryService.findOne(id);
   }
 
   @Mutation(() => Category)
   updateCategory(
-    @Args('category', new ValidationPipe()) category: UpdateCategoryInput,
+    @Args('category', new ValidationPipe()) updateCategoryInput: UpdateCategoryInput,
   ): Promise<Category> {
-    return this.categoryService.update(category.id, category);
+    this.logger.verbose(`Updating Category with Input: ${JSON.stringify(updateCategoryInput)}`);
+
+    return this.categoryService.update(updateCategoryInput.id, updateCategoryInput);
   }
 
   @Mutation(() => Category)
   removeCategory(@Args('id') id: string): Promise<any> {
+    this.logger.verbose(`Deleting Category by ID: ${id}`);
+
     return this.categoryService.remove(id);
   }
 
   @ResolveField()
   async articles(@Parent() category: Category): Promise<Ref<Article, ObjectId>[]> {
     const { id } = category;
+
+    this.logger.verbose(`Resolving Articles for Category by ID: ${id}`);
 
     return this.categoryService.articles(id);
   }
@@ -58,6 +70,8 @@ export class CategoryResolver {
   async feeds(@Parent() category: Category): Promise<Ref<Feed, ObjectId>[]> {
     const { id } = category;
 
+    this.logger.verbose(`Resolving Feeds for Category by ID: ${id}`);
+
     return this.categoryService.feeds(id);
   }
 
@@ -65,12 +79,16 @@ export class CategoryResolver {
   async keywords(@Parent() category: Category): Promise<Ref<Keyword, ObjectId>[]> {
     const { id } = category;
 
+    this.logger.verbose(`Resolving Keywords for Category by ID: ${id}`);
+
     return this.categoryService.keywords(id);
   }
 
   @ResolveField()
   async links(@Parent() category: Category): Promise<Ref<Link, ObjectId>[]> {
     const { id } = category;
+
+    this.logger.verbose(`Resolving Links for Category by ID: ${id}`);
 
     return this.categoryService.links(id);
   }
