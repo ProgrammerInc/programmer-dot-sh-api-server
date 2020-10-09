@@ -116,6 +116,7 @@
     "eslint-plugin-import": "^2.20.1",
     "husky": "^4.3.0",
     "jest": "26.4.2",
+    "jest-html-reporter": "^3.2.0",
     "lint-staged": "^10.4.0",
     "npm-check": "^5.9.2",
     "npm-run-all": "^4.1.5",
@@ -146,8 +147,18 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "../docs/test",
+    "testEnvironment": "node",
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporter",
+        {
+          "pageTitle": "<programmer>._ API Test Report",
+          "outputPath": "./docs/test/index.html"
+        }
+      ]
+    ]
   },
   "keywords": [
     "programmer inc",
