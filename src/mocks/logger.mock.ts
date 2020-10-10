@@ -3,9 +3,9 @@
 import { LoggerService } from '@nestjs/common';
 
 export class TestLogger implements LoggerService {
-  log(message: string): void {}
-  error(message: string, trace: string) {}
-  warn(message: string) {}
-  debug(message: string) {}
-  verbose(message: string) {}
+  log = jest.fn();
+  error = jest.fn();
+  warn = jest.fn();
+  debug = jest.fn();
+  verbose = jest.fn();
 }
